@@ -7,6 +7,11 @@ import java.util.LinkedList;
 
 import javax.xml.soap.Node;
 
+
+// potential edge cases that need to be fixed: 
+// if user tries to do add the same info twice
+// if there is no vertex for which you search
+
 public class Graph<E> 
 {
 	HashMap<E, Vertex> vertices;
@@ -50,7 +55,7 @@ public class Graph<E>
 		}
 	}
 	
-	private void search(E place, E destiny)
+	private ArrayList<E> search(E place, E destiny)
 	{
 		ArrayList<Vertex> toVisit = new ArrayList<Vertex>();
 		toVisit.add(vertices.get(place));
@@ -69,37 +74,33 @@ public class Graph<E>
 			{
 				if (visited.contains(neighbor)) continue;
 				
+				leadsTo.put(neighbor, curr);
+				
 				if (neighbor.info.equals(destiny))
 				{
-					System.out.println("found");
-					
-					backTrace(destiny, place, leadsTo);
-					return;
+					return backTrace(neighbor, leadsTo);
 				}
 				else
 				{
 					toVisit.add(neighbor);
 					visited.add(neighbor);
-					leadsTo.put(neighbor, curr);
 				}
 			}
 		}
+		return null;
 	}
 	
-	private void backTrace(E place, E destiny, HashMap leadsTo)
+	private ArrayList<E> backTrace(Vertex destiny, HashMap<Vertex, Vertex> leadsTo)
 	{
-		Vertex curr = vertices.get(destiny);
-		String path = "" + destiny;
-		System.out.println(vertices.get(destiny));
+		Vertex curr = destiny;
+		ArrayList<E> path = new ArrayList<E>();
 		
-		
-		while (! curr.info.equals(destiny))
-		{
-			System.out.println(curr);
-			path = curr + path;
-			curr = (Graph<E>.Vertex) leadsTo.get(curr);
+		while (curr != null) {
+			path.add(0, curr.info);
+			curr = leadsTo.get(curr);
 		}
 		System.out.println(path);
+		return path;
 	}
 
 	public static void main(String[] args)
@@ -109,11 +110,21 @@ public class Graph<E>
 		g.addVertex("Felicity");
 		g.addVertex("Andria");
 		g.addVertex("Elgin");
+		g.addVertex("Veronika");
+		g.addVertex("Tommy");
+		g.addVertex("Carl");
 		
 		g.connect("Reina", "Felicity");
 		g.connect("Andria", "Felicity");
 		g.connect("Elgin", "Felicity");
+		g.connect("Veronika", "Reina");
+		g.connect("Elgin", "Andria");
+		g.connect("Tommy", "Carl");
+		g.connect("Carl", "Veronika");
+		g.connect("Andria", "Tommy");
+		g.connect("Carl", "Elgin");
+		g.connect("Andria", "Carl");
 		
-		g.search("Reina", "Elgin");
+		g.search("Andria", "Elgin");
 	}
 }
