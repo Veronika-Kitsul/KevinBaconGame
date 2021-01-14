@@ -21,9 +21,18 @@ public class Graph<E>
 		vertices = new HashMap<E, Vertex>();
 	}
 	
+// potential prevention from the edge case	of adding the same twice
 	public void addVertex(E info)
 	{
-		vertices.put(info, new Vertex(info));
+		if (vertices.get(info) != null) 
+		{
+			// do something to prevent adding
+			// I am not sure if it's okay to just skip it or return or add a print statement
+		}
+		else 
+		{
+			vertices.put(info, new Vertex(info));
+		}
 	}
 	
 	public void connect(E info1, E info2)
@@ -113,6 +122,7 @@ public class Graph<E>
 		g.addVertex("Veronika");
 		g.addVertex("Tommy");
 		g.addVertex("Carl");
+		g.addVertex("Carl");
 		
 		g.connect("Reina", "Felicity");
 		g.connect("Andria", "Felicity");
@@ -125,6 +135,6 @@ public class Graph<E>
 		g.connect("Carl", "Elgin");
 		g.connect("Andria", "Carl");
 		
-		g.search("Andria", "Elgin");
+		g.search("Kat", "Carl");
 	}
 }
