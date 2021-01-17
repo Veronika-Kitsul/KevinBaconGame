@@ -21,13 +21,12 @@ public class Graph<E>
 		vertices = new HashMap<E, Vertex>();
 	}
 	
-// potential prevention from the edge case	of adding the same twice
+// prevention from the edge case of adding the same twice
 	public void addVertex(E info)
 	{
 		if (vertices.get(info) != null) 
 		{
-			// do something to prevent adding
-			// I am not sure if it's okay to just skip it or return or add a print statement
+			System.out.println("You tried to add the same information twice, we prevented you from doing this.");
 		}
 		else 
 		{
@@ -39,8 +38,6 @@ public class Graph<E>
 	{
 		Vertex v1 = vertices.get(info1);
 		Vertex v2 = vertices.get(info2);
-		
-		//check if the info is in the map already
 
 		v1.neighbors.add(v2);
 		v2.neighbors.add(v1);
@@ -66,6 +63,18 @@ public class Graph<E>
 	
 	private ArrayList<E> search(E place, E destiny)
 	{
+		// if there is no 
+		if (vertices.get(destiny) == null)
+		{
+			System.out.println("There is no destination with this name. ");
+			return null;
+		}
+		else if (vertices.get(place) == null)
+		{
+			System.out.println("There is no starting point with this name. ");
+			return null;
+		}
+		
 		ArrayList<Vertex> toVisit = new ArrayList<Vertex>();
 		toVisit.add(vertices.get(place));
 		
@@ -135,6 +144,6 @@ public class Graph<E>
 		g.connect("Carl", "Elgin");
 		g.connect("Andria", "Carl");
 		
-		g.search("Kat", "Carl");
+		g.search("Andria", "Kat");
 	}
 }
