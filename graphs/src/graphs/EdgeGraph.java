@@ -23,14 +23,7 @@ public class EdgeGraph<E, T>
 // prevention from the edge case of adding the same twice
 	public void addVertex(E info)
 	{
-		if (vertices.get(info) != null) 
-		{
-			System.out.println("You tried to add the same information twice, we prevented you from doing this.");
-		}
-		else 
-		{
-			vertices.put(info, new Vertex(info));
-		}
+		vertices.put(info, new Vertex(info));
 	}
 	
 	public void connect(E info1, E info2, T label)
@@ -136,11 +129,13 @@ public class EdgeGraph<E, T>
 		Vertex curr = destiny;
 		ArrayList<Object> path = new ArrayList<Object>();
 		
-		while (curr != null) {
-			path.add(0, leadsTo.get(curr));
+		while (leadsTo.get(curr) != null) 
+		{
 			path.add(0, curr.info);
+			path.add(0, leadsTo.get(curr).label);
 			curr = leadsTo.get(curr).getNeighbor(curr);
 		}
+		path.add(0, curr.info);
 		System.out.println(path);
 		return path;
 	}
@@ -148,5 +143,13 @@ public class EdgeGraph<E, T>
 	public static void main(String[] args)
 	{
 		EdgeGraph<String, String> g = new EdgeGraph<String, String>();
+		g.addVertex("R");
+		g.addVertex("A");
+		g.addVertex("K");
+		
+		
+		g.connect("K", "A", "food");
+		g.connect("R", "A", "sports");
+		g.search("K", "R");
 	}
 }
