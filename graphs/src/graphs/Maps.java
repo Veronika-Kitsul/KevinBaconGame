@@ -10,10 +10,10 @@ import java.util.HashMap;
 
 public class Maps 
 {
-	// need to use try catch but I do not know how to frame them
+	//--------------need to use try catch but I do not know how to frame them------------------------------------------
 	
 	// a map of code = actor
-	HashMap codeActor = new HashMap();
+	HashMap<String, String> codeActor = new HashMap<String, String>();
 	
 	// a map of code = movie
 	HashMap<String, String> codeMovie = new HashMap<String, String>();
@@ -34,7 +34,6 @@ public class Maps
 		//creating a graph
 		EdgeGraph<String, String> graph = new EdgeGraph<String, String>();
 		
-		
 		int k = 0;
 		for (String line = actorsReader.readLine(); line != null; line = actorsReader.readLine())
 		{
@@ -45,18 +44,15 @@ public class Maps
 		}
 		actorsReader.close();
 		System.out.println(k);
+		System.out.println(codeActor.size());
 		System.out.println(graph.vertices.size());
 
 		
-		int f = 0;
 		for (String line = moviesReader.readLine(); line != null; line = moviesReader.readLine())
 		{
 			String[] array = line.split("~");
 			codeMovie.put(array[0], array[1]);
-			f++;
 		}
-		System.out.println(f);
-		 
 		
 		
 		/*
