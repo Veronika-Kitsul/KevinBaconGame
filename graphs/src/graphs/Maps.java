@@ -5,13 +5,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
 
 public class Maps 
 {
+	// need to use try catch but I do not know how to frame them
+	
 	// a map of code = actor
 	HashMap codeActor = new HashMap();
 	
@@ -21,99 +21,45 @@ public class Maps
 	
 	public Maps() throws IOException 
 	{
-		// creating file readers and file variable for all files
+		// creating readers and file variables for all files
 		File actors = new File("actors.txt");
 		File movies = new File("movies.txt");
 		File movieActors = new File("movie-actors.txt");
-		//FileReader actorsReader = new FileReader(actors);
-		FileReader moviesReader = new FileReader(movies);
-		FileReader moviesActors = new FileReader(movieActors);
+		BufferedReader actorsReader = new BufferedReader(new FileReader(actors));
+		BufferedReader moviesReader = new BufferedReader(new FileReader(movies));
+		BufferedReader moviesActors = new BufferedReader(new FileReader(movieActors));
+		
+		//FileReader moviesActors = new FileReader(movieActors);
 		
 		//creating a graph
 		EdgeGraph<String, String> graph = new EdgeGraph<String, String>();
 		
-		//trying to read files with buffered reader, probably do not use split well
-		BufferedReader actorsReader = new BufferedReader(new FileReader(actors));
 		
+		int k = 0;
 		for (String line = actorsReader.readLine(); line != null; line = actorsReader.readLine())
 		{
-			ArrayList string = new ArrayList();
-			//string.add(line.split("~"));
-			//codeActor.put(string.get(0), string.get(1));
-			//graph.addVertex(value);
-			System.out.println((line.split("~")));
+			String[] array = line.split("~");
+			codeActor.put(array[0], array[1]);
+			graph.addVertex(array[1]);
+			k++;
 		}
-		
-		//in.close();
-		
-		/*// declaring variables needed to read files
-		int i;
-		boolean isSymbol = false;
-		String key = "";
-		String value = "";
-		
-		int count = 0;
-		// reading through the file
-		while((i = actorsReader.read()) != -1)
-		{
-			char character = (char) i;
-			
-			// if you met ~ that means we go from key to value, change isSymbol to true
-			if (character == '~')
-			{
-				isSymbol = true;
-			}
-			
-			if (isSymbol == false)
-			{
-				// if you have not met ~ yet, then everything you write belongs to the key
-				key = key + character;
-			}
-			else if (isSymbol == true && character != '\n')
-			{
-				value = value + character;
-			}
-			else if (character == '\n')
-			{
-				count++;
-				codeActor.put(key, value);
-				graph.addVertex(value);
-				isSymbol = false;
-				value = "";
-				key = "";
-			}
-		}
-		System.out.println(count);
+		actorsReader.close();
+		System.out.println(k);
 		System.out.println(graph.vertices.size());
 
 		
-		// reading through the file
-		while((i = moviesReader.read()) != -1)
+		int f = 0;
+		for (String line = moviesReader.readLine(); line != null; line = moviesReader.readLine())
 		{
-			char character = (char) i;
-			
-			// if you met ~ that means we go from key to value, change isSymbol to true
-			if (character == '~')
-			{
-				isSymbol = true;
-			}
-			else if (isSymbol == false)
-			{
-				// if you have not met ~ yet, then everything you write belongs to the key
-				key = key + character;
-			}
-			else if (isSymbol == true && character != '\n')
-			{
-				value = value + character;
-			}
-			else if (character == '\n')
-			{
-				codeMovie.put(key, value);
-				isSymbol = false;
-				value = "";
-				key = "";
-			}
+			String[] array = line.split("~");
+			codeMovie.put(array[0], array[1]);
+			f++;
 		}
+		System.out.println(f);
+		 
+		
+		
+		/*
 		
 		//if they share a movie = connect them 	
 		String prevKey = "";
