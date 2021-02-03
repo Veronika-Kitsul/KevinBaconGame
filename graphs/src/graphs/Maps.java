@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -44,7 +45,6 @@ public class Maps
 		}
 		actorsReader.close();
 		System.out.println(k);
-		System.out.println(codeActor.size());
 		System.out.println(graph.vertices.size());
 
 		
@@ -55,64 +55,40 @@ public class Maps
 		}
 		
 		
-		/*
 		
-		//if they share a movie = connect them 	
 		String prevKey = "";
-		
-		// list of all the codes of actors in one movie
+		String key = "";
+		int connections = 0;
 		ArrayList<String> codes = new ArrayList<String>();
-		
-		// reading through the file
-		int counter = 0;
-		while((i = moviesActors.read()) != -1)
+		for (String line = moviesActors.readLine(); line != null; line = moviesActors.readLine())
 		{
-			char character = (char) i;
-			// if you met ~ that means we go from key to value, change isSymbol to true
-			if (character == '~')
-			{
-				isSymbol = true;
-			}
+			String[] array = line.split("~");
+			key = array[0];
 			
-			// i do not add the first element
-			if (isSymbol == false)
+			if(prevKey.equals(key)|| prevKey == "")
 			{
-				// if you have not met ~ yet, then everything you write belongs to the key
-				key = key + character;
+				codes.add(array[1]);
 			}
-			else if (isSymbol == true && character != '\n')
+			else if (prevKey.equals(key) == false && prevKey != "")
 			{
-				value = value + character;
-			}
-			
-			
-			if(prevKey == key && character == '\n' || prevKey == "")
-			{
-				// this does not add anything
-				codes.add(value);
-			}
-			else if (prevKey != key && character == '\n')
-			{
-				//System.out.println(counter);
-				System.out.println(codes.size());
-				// it does not run this loop
 				for (int j = 0; j < codes.size(); j++)
 				{
-					for (int k = 1; k < codes.size(); k++)
+					for (int n = 1; n < codes.size(); n++)
 					{
-						graph.connect(codeMovie.get(key), codes.get(j), codes.get(k));
-						counter++;
+						System.out.println(connections);
+						
+						// null pointer exception here-----------------------------
+						graph.connect(codes.get(j), codes.get(n), codeMovie.get(array[0]));
+						connections++;
 					}
-				}
+			    }
+				codes.clear();
 			}
 			
-			isSymbol = false;
 			prevKey = key;
-			value = "";
 			key = "";
 		}
-		System.out.println(counter);*/
-	}
+}
 
 	public static void main(String[] args) throws IOException
 	{
