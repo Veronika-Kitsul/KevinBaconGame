@@ -75,19 +75,23 @@ public class Maps
 				{
 					for (int n = 1; n < codes.size(); n++)
 					{
-						System.out.println(connections);
-						
-						// null pointer exception here-----------------------------
-						graph.connect(codes.get(j), codes.get(n), codeMovie.get(array[0]));
-						connections++;
+						if (j == n)
+						{
+							
+						}
+						else
+						{
+							graph.connect(codeActor.get(codes.get(j)), codeActor.get(codes.get(n)), codeMovie.get(array[0]));
+							connections++;
+						}
 					}
 			    }
 				codes.clear();
 			}
-			
 			prevKey = key;
 			key = "";
 		}
+		System.out.println(connections);
 }
 
 	public static void main(String[] args) throws IOException
