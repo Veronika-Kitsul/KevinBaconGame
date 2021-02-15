@@ -132,8 +132,88 @@ public class EdgeGraph<E, T>
 			curr = leadsTo.get(curr).getNeighbor(curr);
 		}
 		path.add(0, curr.info);
-		System.out.println(path);
 		return path;
+	}
+	
+	public ArrayList<Object> farthest(E info) 
+	{
+		if (info == null)
+		{
+			System.out.println("There is no destination with this name. ");
+			return null;
+		}
+		else if (info == null)
+		{
+			System.out.println("There is no starting point with this name. ");
+			return null;
+		}
+		ArrayList<Vertex> toVisit = new ArrayList<Vertex>();
+		toVisit.add(vertices.get(info));
+		
+		HashSet<Vertex> visited = new HashSet<Vertex>();
+		visited.add(vertices.get(info));
+		
+		HashMap<Vertex, Edge> leadsTo = new HashMap<Vertex, Edge>();
+		
+		Vertex curr = toVisit.get(0);
+		while (!toVisit.isEmpty())
+		{			
+			curr = toVisit.remove(0);
+
+			for (Edge e: curr.edges)
+			{
+				Vertex neighbor = e.getNeighbor(curr);
+				
+				if (visited.contains(neighbor)) continue;
+				
+				leadsTo.put(neighbor, e);
+				
+				toVisit.add(neighbor);
+				visited.add(neighbor);
+			}
+		}
+		return backTrace(curr, leadsTo);
+	}
+	
+	public ArrayList<Object> threeWays(E start, E end) 
+	{
+		if (end == null)
+		{
+			System.out.println("There is no destination with this name. ");
+			return null;
+		}
+		else if (start == null)
+		{
+			System.out.println("There is no starting point with this name. ");
+			return null;
+		}
+		// array list of array lists
+		ArrayList<Vertex> toVisit = new ArrayList<Vertex>();
+		toVisit.add(vertices.get(start));
+		
+		HashSet<Vertex> visited = new HashSet<Vertex>();
+		visited.add(vertices.get(start));
+		
+		HashMap<Vertex, Edge> leadsTo = new HashMap<Vertex, Edge>();
+		
+		Vertex curr = toVisit.get(0);
+		while (!toVisit.isEmpty())
+		{			
+			curr = toVisit.remove(0);
+
+			for (Edge e: curr.edges)
+			{
+				Vertex neighbor = e.getNeighbor(curr);
+				
+				if (visited.contains(neighbor)) continue;
+				
+				leadsTo.put(neighbor, e);
+				
+				toVisit.add(neighbor);
+				visited.add(neighbor);
+			}
+		}
+		return backTrace(curr, leadsTo);
 	}
 
 	public static void main(String[] args)
@@ -142,10 +222,15 @@ public class EdgeGraph<E, T>
 		g.addVertex("R");
 		g.addVertex("A");
 		g.addVertex("K");
-		
+		g.addVertex("H");
+		g.addVertex("B");
+		g.addVertex("C");
 		
 		g.connect("K", "A", "food");
 		g.connect("R", "A", "sports");
-		g.search("K", "R");
+		g.connect("R", "H", "shops");
+		g.connect("H", "C", "chocolate");
+		g.connect("C", "B", "tennis");
+		g.farthest("K");
 	}
 }
