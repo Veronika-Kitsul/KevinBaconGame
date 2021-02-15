@@ -175,6 +175,7 @@ public class EdgeGraph<E, T>
 		return backTrace(curr, leadsTo);
 	}
 	
+// working on this now ------------------------	
 	public ArrayList<Object> threeWays(E start, E end) 
 	{
 		if (end == null)
