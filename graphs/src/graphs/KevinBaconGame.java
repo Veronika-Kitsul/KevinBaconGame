@@ -11,7 +11,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -19,6 +18,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
@@ -101,7 +101,6 @@ public class KevinBaconGame
 			prevKey = key;
 			key = "";
 		}
-		System.out.println(graph.farthest("Tom Hanks"));
 		
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
@@ -141,19 +140,39 @@ public class KevinBaconGame
 		top.add(display);
 		
 		// search button to run BFS
-		JButton search = new JButton("Search");
-		bottom.add(search);
+		JButton shortest = new JButton("Shortest path");
+		bottom.add(shortest);
 		
-		search.addActionListener(new ActionListener()
+		shortest.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				// how to get the actual text it has??????????????????/
-				graph.search(actor1.getText().trim(), actor2.getText().trim());
-				display.setText((graph.search(actor1.getText().trim(), actor2.getText().trim()).toString()));
+				String first = actor1.getText().trim();
+				String second = actor2.getText().trim();
+				
+				if (first.equals(""))
+				{
+					display.setText("Please input the first actor and run again. ");
+					return;
+				}
+				else if (second.equals(""))
+				{
+					display.setText("Please input the second actor and run again. ");
+					return;
+				}
+				
+				if (graph.search(first, second) == null)
+				{
+					display.setText("Sorry, there is no information you are looking for. You might want to check if actors' names are correct, or we might just not have them in our database. ");
+				}
+				else
+				{
+					display.setText((graph.search(first, second).toString()));
+				}
 			}
 		});
 		
+		// farthest button to run farthest method
 		JButton farthest = new JButton("Farthest actor");
 		bottom.add(farthest);
 		
@@ -161,10 +180,119 @@ public class KevinBaconGame
 		{
 			public void actionPerformed(ActionEvent e) 
 			{
-				graph.farthest(actor1.getText());
-				display.setText((graph.farthest(actor1.getText())).toString());
+				String first = actor1.getText().trim();
+				
+				if (first.equals(""))
+				{
+					display.setText("Please input the first actor and run again. ");
+					return;
+				}
+				
+				if (graph.farthest(first) == null)
+				{
+					display.setText("Sorry, there is no information you are looking for. You might want to check if actors' names are correct, or we might just not have them in our database. ");
+				}
+				else
+				{
+					display.setText((graph.farthest(first)).toString());
+				}
 			}
 		});
+		
+		JButton ways = new JButton("3 Shortest Ways");
+		bottom.add(ways);
+		
+		ways.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				String first = actor1.getText().trim();
+				String second = actor2.getText().trim();
+				
+				if (first.equals(""))
+				{
+					display.setText("Please input the first actor and run again. ");
+					return;
+				}
+				else if (second.equals(""))
+				{
+					display.setText("Please input the second actor and run again. ");
+					return;
+				}
+				
+				if (graph.threeWays(first, second) == null)
+				{
+					display.setText("Sorry, there is no information you are looking for. You might want to check if actors' names are correct, or we might just not have them in our database. ");
+				}
+				else 
+				{
+					graph.threeWays(first, second);
+					String output = "1) ";
+					
+					ArrayList<ArrayList<Object>> ways = graph.threeWays(first, second);
+					output = output + ways.get(0) + "\n\n" + "2) " + ways.get(1) + "\n\n" + "3) " + ways.get(2);
+		
+					display.setText(output);
+				}
+			}
+		});
+		
+		
+		// creating a button to switch between themes
+		JButton theme = new JButton("Swtich theme");
+		bottom.add(theme);
+		
+		// getting the original colors of panels to use it in light mode later
+		Color panelcolor = panel.getBackground();
+		Color bottomColor = bottom.getBackground();
+				
+		// if you click on the dark mode button, it will set backgrounds of buttons panel and overall panel to dark palette
+		theme.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				// if it's black -- go for white
+				if (panel.getBackground().equals(new Color (90, 130, 100)))
+				{
+					bottom.setBackground(bottomColor);
+					panel.setBackground(panelcolor);
+					display.setBackground(Color.white);
+					top.setBackground(panelcolor);
+				}
+				else 
+				{
+					bottom.setBackground(new Color (88, 110, 117));
+					top.setBackground(new Color (90, 130, 100));
+					display.setBackground(new Color(220, 220, 220));
+					panel.setBackground(new Color (90, 130, 100));
+				}
+			}
+		});
+		
+		JButton rules = new JButton("Rules and Instructions");
+		bottom.add(rules);
+		rules.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e) 
+			{
+				JOptionPane message = new JOptionPane();
+				message.showMessageDialog(frame, "Hello and welcome to the Kevin Bacon Game!\n" +
+				                                  "You have two text fields to enter two actors,\n" + 
+				                                  "and you can perform three operations on them.\n" + 
+				                                  "First,  you can find the shortest path from one\n" +
+				                                  "actor to another through movies they stage in.\n" +
+				                                  "For the second one, you only need one actor and\n" +
+				                                  "even if you input two, we will run the search for\n" +
+				                                  "for the farthest actor in the map for just the\n" +
+				                                  "first one. The third feature is to show three\n" +
+				                                  "shortest paths how to get from the first actor\n" +
+				                                  "to the second one. Names of actors have to be\n" +
+				                                  "their real names inputted correctly. The program\n" +
+				                                  "will ask you to try again if you inputted the name\n" +
+				                                  "incorrectly.", "Rules and Instructions", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		
 		
 		frame.setSize(600, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -172,6 +300,7 @@ public class KevinBaconGame
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(false);
 		frame.setFocusable(true);
+	// another issue is how do I make it case sensitive?
 }
 
 

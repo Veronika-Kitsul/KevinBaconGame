@@ -3,9 +3,6 @@ package graphs;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-
-import javax.xml.soap.Node;
 
 
 public class EdgeGraph<E, T> 
@@ -137,16 +134,12 @@ public class EdgeGraph<E, T>
 	
 	public ArrayList<Object> farthest(E info) 
 	{
-		if (info == null)
+		if (vertices.get(info) == null)
 		{
 			System.out.println("There is no destination with this name. ");
 			return null;
 		}
-		else if (info == null)
-		{
-			System.out.println("There is no starting point with this name. ");
-			return null;
-		}
+
 		ArrayList<Vertex> toVisit = new ArrayList<Vertex>();
 		toVisit.add(vertices.get(info));
 		
@@ -176,19 +169,20 @@ public class EdgeGraph<E, T>
 	}
 	
 // working on this now ------------------------	
-	public ArrayList<Object> threeWays(E start, E end) 
+	public ArrayList<ArrayList<Object>> threeWays(E start, E end) 
 	{
-		if (end == null)
+
+		if (vertices.get(end) == null)
 		{
 			System.out.println("There is no destination with this name. ");
 			return null;
 		}
-		else if (start == null)
+		else if (vertices.get(start) == null)
 		{
 			System.out.println("There is no starting point with this name. ");
 			return null;
 		}
-		// array list of array lists
+		
 		ArrayList<Vertex> toVisit = new ArrayList<Vertex>();
 		toVisit.add(vertices.get(start));
 		
@@ -197,11 +191,12 @@ public class EdgeGraph<E, T>
 		
 		HashMap<Vertex, Edge> leadsTo = new HashMap<Vertex, Edge>();
 		
-		Vertex curr = toVisit.get(0);
+		ArrayList<ArrayList <Object>> ways = new ArrayList<ArrayList<Object>>();
+		
 		while (!toVisit.isEmpty())
-		{			
-			curr = toVisit.remove(0);
-
+		{
+			Vertex curr = toVisit.remove(0);
+			
 			for (Edge e: curr.edges)
 			{
 				Vertex neighbor = e.getNeighbor(curr);
@@ -210,11 +205,22 @@ public class EdgeGraph<E, T>
 				
 				leadsTo.put(neighbor, e);
 				
-				toVisit.add(neighbor);
-				visited.add(neighbor);
+				if (neighbor.info.equals(end))
+				{
+					 ways.add(backTrace(neighbor, leadsTo));
+					 if (ways.size() == 3)
+					 {
+						 return ways;
+					 }
+				}
+				else
+				{
+					toVisit.add(neighbor);
+					visited.add(neighbor);
+				}
 			}
 		}
-		return backTrace(curr, leadsTo);
+		return ways;
 	}
 
 	public static void main(String[] args)
@@ -232,6 +238,6 @@ public class EdgeGraph<E, T>
 		g.connect("R", "H", "shops");
 		g.connect("H", "C", "chocolate");
 		g.connect("C", "B", "tennis");
-		g.farthest("K");
+		g.threeWays("R", "C");
 	}
 }
