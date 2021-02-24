@@ -24,7 +24,7 @@ import javax.swing.JTextArea;
 
 public class KevinBaconGame 
 {
-	//--------------need to use try catch but I do not know how to frame them------------------------------------------
+	// EdgeGraph class is the only class that go with it, and also three text files
 	
 	// a map of code = actor
 	HashMap<String, String> codeActor = new HashMap<String, String>();

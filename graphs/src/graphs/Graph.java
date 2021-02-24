@@ -8,9 +8,7 @@ import java.util.LinkedList;
 import javax.xml.soap.Node;
 
 
-// potential edge cases that need to be fixed: 
-// if user tries to do add the same info twice
-// if there is no vertex for which you search
+// this graph does not belong to Kevin Bacon Game project, just happens to be in the same folder
 
 public class Graph<E> 
 {

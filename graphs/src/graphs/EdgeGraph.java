@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+// run Kevin Bacon Game, this is just a constructor class
 
 public class EdgeGraph<E, T> 
 {
