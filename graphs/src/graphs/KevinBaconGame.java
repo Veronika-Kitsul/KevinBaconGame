@@ -293,7 +293,7 @@ public class KevinBaconGame
 				public void actionPerformed(ActionEvent e) 
 				{
 					// if it's black -- go for white
-					if (panel.getBackground().equals(new Color (135, 170, 185)))
+					if (panel.getBackground().equals(new Color (255, 166, 180)))
 					{
 						bottom.setBackground(bottomColor);
 						panel.setBackground(panelcolor);
@@ -304,10 +304,10 @@ public class KevinBaconGame
 					else 
 					{
 						// play around with colors and elements
-						bottom.setBackground(new Color (98, 120, 127));
-						top.setBackground(new Color (135, 170, 185));
-						display.setBackground(new Color(249, 243, 197));
-						panel.setBackground(new Color (135, 170, 185));
+						bottom.setBackground(new Color (255, 199, 204));
+						top.setBackground(new Color (255, 166, 180));
+						display.setBackground(new Color(255, 243, 243));
+						panel.setBackground(new Color (255, 166, 180));
 					}
 				}
 			});
@@ -353,12 +353,10 @@ public class KevinBaconGame
 		} 
 		catch (FileNotFoundException e1) 
 		{
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} 
 		catch (IOException e1) 
 		{
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 }
