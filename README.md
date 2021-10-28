@@ -1,4 +1,4 @@
-# KevinBaconGame
+# Kevin Bacon Game
 
 Hello and welcome to the Kevin Bacon Game! It contains a huge database of actors and movies, so you can play around with their connections. 
 You have two text fields to enter two actors, and you can perform three operations on them. 
